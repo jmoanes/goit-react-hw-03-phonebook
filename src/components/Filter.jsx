@@ -4,7 +4,7 @@ function Filter({ value, onChange }) {
   return (
     <input
       type="text"
-      placeholder="Search by name"
+      placeholder="Find contacts by name"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
