@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
 import Filter from "./components/Filter";
 import "./App.css"; // ✅ import CSS
 
 function App() {
-  // ✅ Load contacts from localStorage on first render
-  const [contacts, setContacts] = useState(() => {
-    const savedContacts = localStorage.getItem("contacts");
-    return savedContacts ? JSON.parse(savedContacts) : [];
-  });
+  // ✅ Default contacts only
+  const [contacts, setContacts] = useState([
+    { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+    { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+    { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+    { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+  ]);
 
   const [filter, setFilter] = useState("");
-
-  // ✅ Save contacts to localStorage whenever contacts change
-  useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
 
   const addContact = (newContact) => {
     const exists = contacts.some(
@@ -32,7 +29,9 @@ function App() {
   };
 
   const deleteContact = (id) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id !== id)
+    );
   };
 
   const filteredContacts = contacts.filter((contact) =>
