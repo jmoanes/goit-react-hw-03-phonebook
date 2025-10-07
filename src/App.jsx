@@ -4,18 +4,23 @@ import ContactList from "./components/ContactList";
 import Filter from "./components/Filter";
 import "./App.css"; // import CSS
 
+// ✅ Default contacts
+const DEFAULT_CONTACTS = [
+  { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+  { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+  { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+  { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+];
+
 function App() {
-  // ✅ Load contacts from localStorage OR use defaults
+  // ✅ Load contacts from localStorage OR fallback to defaults
   const [contacts, setContacts] = useState(() => {
     const savedContacts = localStorage.getItem("contacts");
-    return savedContacts
-      ? JSON.parse(savedContacts)
-      : [
-          { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-          { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-          { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-          { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-        ];
+    if (savedContacts) {
+      const parsed = JSON.parse(savedContacts);
+      return parsed.length > 0 ? parsed : DEFAULT_CONTACTS;
+    }
+    return DEFAULT_CONTACTS;
   });
 
   const [filter, setFilter] = useState("");
